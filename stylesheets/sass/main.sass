@@ -1,0 +1,45 @@
+$maze-background: lightskyblue;
+$wall-color: #333
+
+main.container
+    padding-top: 50px
+    color: #333
+    // font-family: Georgia
+    // background-color: pink
+
+    h1
+        text-align: center
+        font-family: Audiowide, sans-serif
+        text-transform: uppercase
+
+    #visualization-section
+        margin: 50px 0
+
+        #maze
+            margin: 0 auto
+            text-align: center
+            border-collapse: separate;
+            border-spacing: 0;
+            // padding: 0
+
+            tr
+                height: 100px
+
+            td
+                text-align: center
+                border: 2px solid $maze-background
+                background-color: $maze-background
+                width: 100px
+                font-size: 20px
+                // padding: 0
+
+            td.wall-left
+                border-left-color: $wall-color
+            td.wall-right
+               border-right-color: $wall-color
+            td.wall-top
+               border-top-color: $wall-color
+            td.wall-bottom
+               border-bottom-color: $wall-color
+
+

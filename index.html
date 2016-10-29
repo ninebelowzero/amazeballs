@@ -3,6 +3,12 @@
 <head>
     <title>Maze Generator</title>
 
+    <!-- Fonts -->
+
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Audiowide');
+    </style>
+
     <!-- CSS -->
 
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css">
@@ -25,8 +31,7 @@
 
         <table id="maze">
             <tr ng-repeat="row in maze.grid track by $index">
-                <td ng-repeat="cell in row track by $index">
-                    <span>{{ cell }}</span>
+                <td ng-repeat="cell in row track by $index" class="wall-top">
                 </td>
             </tr>
         </table>

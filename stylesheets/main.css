@@ -1,33 +1,49 @@
 main.container {
   padding-top: 50px;
+  color: #333;
 }
 
-h1 {
+main.container h1 {
   text-align: center;
+  font-family: Audiowide, sans-serif;
+  text-transform: uppercase;
 }
 
-section#visualization-section {
+main.container #visualization-section {
   margin: 50px 0;
 }
 
-#maze {
+main.container #visualization-section #maze {
   margin: 0 auto;
   text-align: center;
-  padding: 0;
-  border: 1px solid #333;
-  height: 400px;
-  width: 400px;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
-#maze tr {
-  height: 60px;
+main.container #visualization-section #maze tr {
+  height: 100px;
 }
 
-#maze td {
+main.container #visualization-section #maze td {
   text-align: center;
   border: 2px solid lightskyblue;
   background-color: lightskyblue;
-  width: 60px;
-  font-size: 40px;
-  padding: 0;
+  width: 100px;
+  font-size: 20px;
+}
+
+main.container #visualization-section #maze td.wall-left {
+  border-left-color: #333;
+}
+
+main.container #visualization-section #maze td.wall-right {
+  border-right-color: #333;
+}
+
+main.container #visualization-section #maze td.wall-top {
+  border-top-color: #333;
+}
+
+main.container #visualization-section #maze td.wall-bottom {
+  border-bottom-color: #333;
 }
