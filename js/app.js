@@ -1,17 +1,19 @@
 angular.module('mazeApp', [])
-    .controller('MazeController', MazeController);
+    .controller('MazeController', ['$timeout', MazeController]);
 
-function MazeController() {
+function MazeController($timeout) {
 
     var maze = this;
 
-    var gridHeight  = 10,
-        gridWidth   = 10,
-        interval    = 500;
-
+    // Parameters controlling the maze and animation
+    var gridHeight      = 10,
+        gridWidth       = 10,
+        startingPoint   = [0, 0],
+        interval        = 500;
 
     maze.reset = reset;
 
+    // Initializes the maze
     maze.reset();
 
 
@@ -19,15 +21,15 @@ function MazeController() {
 
     function reset () {
         maze.grid = buildGrid(gridHeight, gridWidth);
-        findPath();
+        findPath(startingPoint);
     }
 
+    // Creates the blank grid
     function buildGrid(gridHeight, gridWidth) {
 
         var grid = [];
 
         for (var i = 0; i < gridHeight; i++) {
-
             var row = [];
             for (var j = 0; j < gridWidth; j++) {
                 row.push({ open: false, right: false, below: false });
@@ -38,7 +40,24 @@ function MazeController() {
         return grid;
     }
 
-    function findPath() {
+    // Gradually clears a series of paths for the maze
+    function findPath(coords) {
+
+        var count = gridWidth;
+
+        clearCell();
+
+        function clearCell() {
+            var cell = maze.grid[coords[0]][coords[1]];
+            cell.open = true;
+            cell.right = true;
+            coords[1]++;
+            count--;
+
+            if (count > 0) {
+                $timeout(clearCell, interval);
+            }
+        }
 
     }
 
