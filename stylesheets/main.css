@@ -21,15 +21,16 @@ main.container #visualization-section #maze {
 }
 
 main.container #visualization-section #maze tr {
-  height: 10px;
+  height: 40px;
 }
 
 main.container #visualization-section #maze td {
   text-align: center;
   border: 2px solid lightskyblue;
   background-color: lightskyblue;
-  width: 10px;
+  width: 40px;
   font-size: 20px;
+  padding: 0;
 }
 
 main.container #visualization-section #maze td.wall-left {

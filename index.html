@@ -31,7 +31,9 @@
 
         <table id="maze">
             <tr ng-repeat="row in maze.grid track by $index">
-                <td ng-repeat="cell in row track by $index" class="wall-top">
+                <td
+                    ng-repeat="cell in row track by $index"
+                    ng-class="{ 'wall-left': cell.left, 'wall-top': cell.top }">
                     <!-- &nbsp; -->
                 </td>
             </tr>

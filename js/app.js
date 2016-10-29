@@ -15,7 +15,7 @@ function MazeController() {
         var row = [];
 
         for (var j = 0; j < gridWidth; j++) {
-            row.push(".");
+            row.push({ top: false, left: false });
         }
 
         maze.grid.push(row);
