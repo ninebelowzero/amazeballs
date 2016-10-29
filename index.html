@@ -23,12 +23,12 @@
 
     <section id="visualization-section" ng-controller="MazeController as maze">
 
-        <p>Test: {{ maze.test }}</p>
-
         <table id="maze">
-<!--             <tr ng-repeat="5">
-                <td ng-repeat="6"></td>
-            </tr> -->
+            <tr ng-repeat="row in maze.grid track by $index">
+                <td ng-repeat="cell in row track by $index">
+                    <span>{{ cell }}</span>
+                </td>
+            </tr>
         </table>
 
     </section>

@@ -5,6 +5,11 @@ function MazeController() {
 
     var maze = this;
 
-    maze.test = "Kalamazoo!";
+    maze.grid = [
+        ["yo", "yo", "yo", "yo"],
+        ["yo", "yo", "yo", "yo"],
+        ["yo", "yo", "yo", "yo"],
+        ["yo", "yo", "yo", "yo"]
+    ]
 
 };

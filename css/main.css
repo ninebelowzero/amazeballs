@@ -6,6 +6,10 @@ h1 {
     text-align: center;
 }
 
+section#visualization-section {
+    margin: 50px 0;
+}
+
 #maze {
     margin: 0 auto;
     text-align: center;
@@ -16,13 +20,14 @@ h1 {
 }
 
 #maze tr {
-  height: 60px;
+    height: 60px;
 }
 
 #maze td {
-  border: 2px solid blue;
-  background-color: deepSkyBlue;
-  width: 60px;
-  font-size: 40px;
-  padding: 0;
+    text-align: center;
+    border: 2px solid blue;
+    background-color: deepSkyBlue;
+    width: 60px;
+    font-size: 40px;
+    padding: 0;
 }
