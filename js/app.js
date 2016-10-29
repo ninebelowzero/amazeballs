@@ -50,8 +50,16 @@ function MazeController($timeout) {
         function clearCell() {
             var cell = maze.grid[coords[0]][coords[1]];
             cell.open = true;
-            cell.right = true;
-            coords[1]++;
+
+            if (Math.random() > 0.5) {
+                cell.below = true;
+                coords[0]++;
+            } else {
+                cell.right = true;
+                coords[1]++;
+            }
+
+
             count--;
 
             if (count > 0) {
