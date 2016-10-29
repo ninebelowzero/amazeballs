@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html ng-app="mazeApp">
+<head>
+    <title>Maze Generator</title>
+
+    <!-- CSS -->
+
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/skeleton.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <!-- JavaScript -->
+
+    <script type="text/javascript" src="https://code.angularjs.org/1.5.8/angular.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+
+</head>
+<body>
+
+<main class="container">
+
+    <h1>Amazeballs</h1>
+
+    <section id="visualization-section" ng-controller="MazeController as maze">
+
+        <p>Test: {{ maze.test }}</p>
+
+        <table id="maze">
+<!--             <tr ng-repeat="5">
+                <td ng-repeat="6"></td>
+            </tr> -->
+        </table>
+
+    </section>
+
+</main>
+
+</body>
+</html>
