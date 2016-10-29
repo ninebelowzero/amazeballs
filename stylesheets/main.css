@@ -25,8 +25,8 @@ section#visualization-section {
 
 #maze td {
   text-align: center;
-  border: 2px solid blue;
-  background-color: deepSkyBlue;
+  border: 2px solid lightskyblue;
+  background-color: lightskyblue;
   width: 60px;
   font-size: 40px;
   padding: 0;
