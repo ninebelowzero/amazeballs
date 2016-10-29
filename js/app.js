@@ -43,22 +43,73 @@ function MazeController($timeout) {
     // Gradually clears a series of paths for the maze
     function findPath(coords) {
 
-        var count = gridWidth;
+        var count = 50;
 
         clearCell();
 
         function clearCell() {
+
             var cell = maze.grid[coords[0]][coords[1]];
             cell.open = true;
 
-            if (Math.random() > 0.5) {
-                cell.below = true;
-                coords[0]++;
-            } else {
-                cell.right = true;
-                coords[1]++;
-            }
+            var r = Math.random();
+            console.log("r:", r);
+            var neighbor;
 
+            if (r < 0.25) {
+                console.log("Move down");
+                try {
+                    neighbor = maze.grid[coords[0] + 1][coords[1]];
+                    if (neighbor.open) {
+                        clearCell();
+                    } else {
+                        cell.below = true;
+                        coords[0]++;
+                    }
+                }
+                catch (e) {
+                //     // Will be triggered when the algorithm looks outside the grid area
+                //     // - no biggie
+                }
+
+            } else if (r < 0.5) {
+                console.log("Move right");
+                try {
+                    neighbor = maze.grid[coords[0]][coords[1] + 1];
+                    if (neighbor.open) {
+                        clearCell();
+                    } else {
+                        cell.right = true;
+                        coords[1]++;
+                    }
+                }
+                catch (e) {}
+
+            } else if (r < 0.75) {
+                console.log("Move up");
+                try {
+                    neighbor = maze.grid[coords[0] - 1][coords[1]];
+                    if (neighbor.open) {
+                        clearCell();
+                    } else {
+                        neighbor.below = true;
+                        coords[0]--;
+                    }
+                } catch (e) {}
+
+            } else {
+                console.log("Move left");
+                try {
+                    neighbor = maze.grid[coords[0]][coords[1] - 1];
+                    if (neighbor.open) {
+                        clearCell();
+                    } else {
+                        neighbor.right = true;
+                        coords[1]--;
+                    }
+                } catch(e) {}
+
+            }
 
             count--;
 
