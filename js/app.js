@@ -8,17 +8,23 @@ function MazeController() {
     var gridHeight = 10;
     var gridWidth = 10;
 
-    maze.grid = [];
+    reset(gridHeight, gridWidth);
 
-    for (var i = 0; i < gridHeight; i++) {
 
-        var row = [];
+    function reset(gridHeight, gridWidth) {
 
-        for (var j = 0; j < gridWidth; j++) {
-            row.push({ top: false, left: false });
+        maze.grid = [];
+
+        for (var i = 0; i < gridHeight; i++) {
+
+            var row = [];
+
+            for (var j = 0; j < gridWidth; j++) {
+                row.push({ open: true, right: false, below: false });
+            }
+
+            maze.grid.push(row);
         }
-
-        maze.grid.push(row);
     }
 
 }

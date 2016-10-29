@@ -18,33 +18,46 @@ main.container #visualization-section #maze {
   text-align: center;
   border-collapse: separate;
   border-spacing: 0;
-}
-
-main.container #visualization-section #maze tr {
-  height: 40px;
+  border-top: 20px solid #333;
+  border-left: 20px solid #333;
 }
 
 main.container #visualization-section #maze td {
   text-align: center;
-  border: 2px solid lightskyblue;
-  background-color: lightskyblue;
-  width: 40px;
+  border-right: 20px solid #333;
+  border-bottom: 20px solid #333;
+  border-top: none;
+  border-left: none;
   font-size: 20px;
   padding: 0;
+  position: relative;
 }
 
-main.container #visualization-section #maze td.wall-left {
-  border-left-color: #333;
+main.container #visualization-section #maze td .square {
+  width: 20px;
+  height: 20px;
+  background-color: #333;
 }
 
-main.container #visualization-section #maze td.wall-right {
-  border-right-color: #333;
+main.container #visualization-section #maze td .square.open {
+  background-color: white;
 }
 
-main.container #visualization-section #maze td.wall-top {
-  border-top-color: #333;
+main.container #visualization-section #maze td .square::before {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: #333;
+  right: 20px;
+  bottom: 20px;
 }
 
-main.container #visualization-section #maze td.wall-bottom {
-  border-bottom-color: #333;
+main.container #visualization-section #maze td.open-right {
+  border-right-color: white;
+}
+
+main.container #visualization-section #maze td.open-below {
+  border-bottom-color: white;
 }

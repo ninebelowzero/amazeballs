@@ -1,6 +1,7 @@
-$maze-background: lightskyblue;
+$open-color: white;
 $wall-color: #333
-$cell-height: 40px
+$cell-height: 20px
+$border-width: 20px
 
 main.container
     padding-top: 50px
@@ -21,25 +22,42 @@ main.container
             text-align: center
             border-collapse: separate;
             border-spacing: 0;
-
-            tr
-                height: $cell-height
+            border-top: $border-width solid $wall-color
+            border-left: $border-width solid $wall-color
 
             td
                 text-align: center
-                border: 2px solid $maze-background
-                background-color: $maze-background
-                width: $cell-height
+                border-right: $border-width solid $wall-color
+                border-bottom: $border-width solid $wall-color
+                border-top: none
+                border-left: none
+                // background-color: $wall-color
                 font-size: 20px
                 padding: 0
+                position: relative
 
-            td.wall-left
-                border-left-color: $wall-color
-            td.wall-right
-               border-right-color: $wall-color
-            td.wall-top
-               border-top-color: $wall-color
-            td.wall-bottom
-               border-bottom-color: $wall-color
+                .square
+                    width: $cell-height
+                    height: $cell-height
+                    background-color: $wall-color
+
+                .square.open
+                    background-color: $open-color
+
+                .square::before
+                    content: ""
+                    display: inline-block
+                    position: absolute
+                    width: $cell-height
+                    height: $cell-height
+                    background-color: $wall-color
+                    right: $cell-height
+                    bottom: $cell-height
+
+            td.open-right
+                border-right-color: $open-color
+            td.open-below
+                border-bottom-color: $open-color
+
 
 
