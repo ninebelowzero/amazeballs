@@ -1,5 +1,6 @@
 $maze-background: lightskyblue;
 $wall-color: #333
+$cell-height: 10px
 
 main.container
     padding-top: 50px
@@ -20,18 +21,16 @@ main.container
             text-align: center
             border-collapse: separate;
             border-spacing: 0;
-            // padding: 0
 
             tr
-                height: 100px
+                height: $cell-height
 
             td
                 text-align: center
                 border: 2px solid $maze-background
                 background-color: $maze-background
-                width: 100px
+                width: $cell-height
                 font-size: 20px
-                // padding: 0
 
             td.wall-left
                 border-left-color: $wall-color

@@ -5,11 +5,20 @@ function MazeController() {
 
     var maze = this;
 
-    maze.grid = [
-        ["yo", "yo", "yo", "yo"],
-        ["yo", "yo", "yo", "yo"],
-        ["yo", "yo", "yo", "yo"],
-        ["yo", "yo", "yo", "yo"]
-    ];
+    var gridHeight = 10;
+    var gridWidth = 10;
+
+    maze.grid = [];
+
+    for (var i = 0; i < gridHeight; i++) {
+
+        var row = [];
+
+        for (var j = 0; j < gridWidth; j++) {
+            row.push(".");
+        }
+
+        maze.grid.push(row);
+    }
 
 }
