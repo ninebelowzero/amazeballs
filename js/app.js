@@ -10,6 +10,6 @@ function MazeController() {
         ["yo", "yo", "yo", "yo"],
         ["yo", "yo", "yo", "yo"],
         ["yo", "yo", "yo", "yo"]
-    ]
+    ];
 
-};
+}
