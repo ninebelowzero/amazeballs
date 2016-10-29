@@ -70,6 +70,7 @@ function MazeController($timeout) {
                 catch (e) {
                 //     // Will be triggered when the algorithm looks outside the grid area
                 //     // - no biggie
+                    return clearCell();
                 }
 
             } else if (r < 0.5) {
@@ -83,7 +84,7 @@ function MazeController($timeout) {
                         coords[1]++;
                     }
                 }
-                catch (e) {}
+                catch (e) { return clearCell();}
 
             } else if (r < 0.75) {
                 console.log("Move up");
@@ -95,7 +96,7 @@ function MazeController($timeout) {
                         neighbor.below = true;
                         coords[0]--;
                     }
-                } catch (e) {}
+                } catch (e) {return clearCell();}
 
             } else {
                 console.log("Move left");
@@ -107,7 +108,7 @@ function MazeController($timeout) {
                         neighbor.right = true;
                         coords[1]--;
                     }
-                } catch(e) {}
+                } catch(e) {return clearCell();}
 
             }
 

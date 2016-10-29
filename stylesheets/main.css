@@ -20,6 +20,7 @@ main.container #visualization-section #maze {
   border-spacing: 0;
   border-top: 20px solid #333;
   border-left: 20px solid #333;
+  position: relative;
 }
 
 main.container #visualization-section #maze td {
@@ -28,7 +29,6 @@ main.container #visualization-section #maze td {
   border-bottom: 20px solid #333;
   border-top: none;
   border-left: none;
-  font-size: 20px;
   padding: 0;
   position: relative;
 }
@@ -60,4 +60,16 @@ main.container #visualization-section #maze td.open-right {
 
 main.container #visualization-section #maze td.open-below {
   border-bottom-color: white;
+}
+
+main.container #visualization-section #maze::after {
+  content: "";
+  display: inline-block;
+  height: 400px;
+  width: 400px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  border-right: 20px solid #333;
+  border-bottom: 20px solid #333;
 }
