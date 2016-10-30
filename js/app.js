@@ -43,10 +43,20 @@ function MazeController($timeout) {
         // based on nested arrays, meaning the first element represented the column
         // and the second the row. Matrices work the other way round.
         // Also converting from zero-indexing to 1-indexing
-        var i = v.e(2) + 1;
-        var j = v.e(1) + 1;
+        // var i = v.e(2) + 1;
+        // var j = v.e(1) + 1;
 
-        return this.e(i, j);
+        // return this.e(i, j);
+        return this.elements[v.e(1)][v.e(2)];
+    };
+
+    // A setter object in the same vein
+    Matrix.prototype.put = function(v, value) {
+        if (!(v instanceof Vector)) throw TypeError("First input must be a Vector object.");
+
+        // Accessing the raw elements property is relatively simple
+        this.elements[v.e(1)][v.e(2)] = value;
+        return this;
     };
 
     // A constructor for cells in the grid
@@ -69,6 +79,8 @@ function MazeController($timeout) {
             grid.push(row);
         }
 
+        // Converting a simple nested array to a Sylvester.js Matrix object
+        // return $M(grid);
         return grid;
     }
 
