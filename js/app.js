@@ -10,7 +10,7 @@ function MazeController($timeout) {
     var gridHeight      = 20,
         gridWidth       = 20,
         startingPoint   = [0, 0],
-        interval        = 200;
+        interval        = 100;
 
     maze.reset = reset;
 
@@ -25,6 +25,12 @@ function MazeController($timeout) {
         findPath(startingPoint);
     }
 
+    function Cell() {
+        this.open   = 0;
+        this.right  = 0;
+        this.below  = 0;
+    }
+
     // Creates the blank grid
     function buildGrid(gridHeight, gridWidth) {
 
@@ -33,7 +39,7 @@ function MazeController($timeout) {
         for (var i = 0; i < gridHeight; i++) {
             var row = [];
             for (var j = 0; j < gridWidth; j++) {
-                row.push({ open: false, right: false, below: false });
+                row.push(new Cell());
             }
             grid.push(row);
         }
@@ -44,17 +50,18 @@ function MazeController($timeout) {
     // Gradually clears a series of paths for the maze
     function findPath(coords) {
 
-        clearCell(coords);
+        clearCell(coords, 1);
 
     }
 
-    function clearCell(coords) {
+    function clearCell(coords, visit) {
 
         var cell = maze.grid[coords[0]][coords[1]];
 
-        if (cell.open) return;
+        // Ignores the cell if it has already been visited
+        // if (cell.firstPass.open || cell.secondPass.open) return;
 
-        cell.open = true;
+        cell.open = visit;
 
         var neighbors = [],
             directions = [];
@@ -92,28 +99,30 @@ function MazeController($timeout) {
             }
         }
 
-        if (neighbors.length === 0) return;
+        if (neighbors.length === 0) {
+            return;
+            // $timeout(clearCell, interval, true, coords, "secondPass");
+        }
 
         var r = Math.floor(Math.random() * neighbors.length);
 
-        $timeout(clearWall, interval, true, coords, neighbors[r], directions[r]);
+        $timeout(clearWall, interval, true, coords, neighbors[r], directions[r], visit);
 
     }
 
-    function clearWall(originalCoords, newCoords, direction) {
+    function clearWall(originalCoords, newCoords, direction, visit) {
 
         if (direction === "R") {
-            maze.grid[originalCoords[0]][originalCoords[1]].right = true;
+            maze.grid[originalCoords[0]][originalCoords[1]].right = visit;
         } else if (direction === "D") {
-            maze.grid[originalCoords[0]][originalCoords[1]].below = true;
+            maze.grid[originalCoords[0]][originalCoords[1]].below = visit;
         } else if (direction === "L") {
-            maze.grid[newCoords[0]][newCoords[1]].right = true;
+            maze.grid[newCoords[0]][newCoords[1]].right = visit;
         } else if (direction === "U") {
-            maze.grid[newCoords[0]][newCoords[1]].below = true;
+            maze.grid[newCoords[0]][newCoords[1]].below = visit;
         }
 
-        $timeout(clearCell, interval, true, newCoords);
+        $timeout(clearCell, interval, true, newCoords, 1);
     }
-
 
 }
