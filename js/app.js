@@ -28,6 +28,12 @@ function MazeController($timeout) {
     maze.reset();
 
 
+    /*
+     *********************
+     * Private functions *
+     *********************
+     */
+
     // A constructor for cells in the grid
     function Cell() {
         this.visited    = 0;
@@ -56,24 +62,26 @@ function MazeController($timeout) {
 
         var cell = maze.grid[coords[0]][coords[1]];
 
-        // Ignores the cell if it has already been visited
-        // if (cell.firstPass.visited || cell.secondPass.visited) return;
-
         cell.visited = 1;
 
         var neighbors = findUnvisitedNeighbors(coords);
 
+        // If all neighboring cells have been visited, start backtracking
         if (neighbors.length === 0) {
             promises.push($timeout(backtrack, interval, true, coords));
             return;
         }
 
+        // Otherwise, pick a neighbor at random and move on
         var r = Math.floor(Math.random() * neighbors.length);
-
         promises.push($timeout(clearWall, interval, true, coords, neighbors[r]));
 
     }
 
+
+    // Clear the wall separating the cell from its neighor.
+    // This is slightly awkward because of the way the walls are handled in the CSS
+    // - each wall belongs to only one cell, not two
     function clearWall(originalCoords, newCoords) {
 
         if (newCoords.direction === "R") {
@@ -143,10 +151,9 @@ function MazeController($timeout) {
 
     function findUnvisitedNeighbors(coords) {
 
-        var neighbors = [],
-            directions = [];
+        var neighbors   = [];
 
-        var neighborCoords, direction;
+        var neighborCoords;
 
         if (coords[0] > 0) {
             neighborCoords = [coords[0] - 1, coords[1]];
