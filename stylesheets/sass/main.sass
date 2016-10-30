@@ -38,7 +38,7 @@ main.container
                     height: $cell-height
                     background-color: $wall-color
 
-                .square.open
+                .square.visited-once
                     background-color: $open-color
 
                 .square::before
@@ -51,9 +51,9 @@ main.container
                     right: $cell-height
                     bottom: $cell-height
 
-            td.open-right
+            td.visited-right-once
                 border-right-color: $open-color
-            td.open-below
+            td.visited-below-once
                 border-bottom-color: $open-color
 
         // Pseudo element to cover the edges of the maze where you can get weird border effects

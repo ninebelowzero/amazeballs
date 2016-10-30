@@ -39,7 +39,7 @@ main.container #visualization-section #maze td .square {
   background-color: #333;
 }
 
-main.container #visualization-section #maze td .square.open {
+main.container #visualization-section #maze td .square.visited-once {
   background-color: white;
 }
 
@@ -54,11 +54,11 @@ main.container #visualization-section #maze td .square::before {
   bottom: 10px;
 }
 
-main.container #visualization-section #maze td.open-right {
+main.container #visualization-section #maze td.visited-right-once {
   border-right-color: white;
 }
 
-main.container #visualization-section #maze td.open-below {
+main.container #visualization-section #maze td.visited-below-once {
   border-bottom-color: white;
 }
 

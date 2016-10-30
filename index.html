@@ -34,8 +34,11 @@
             <tr ng-repeat="row in maze.grid track by $index">
                 <td
                     ng-repeat="cell in row track by $index"
-                    ng-class="{ 'open-right': cell.right, 'open-below': cell.below }">
-                    <div class="square" ng-class="{ open: cell.open }"></div>
+                    ng-class="{
+                        'visited-right-once': cell.right === 1,
+                        'visited-below-once': cell.below === 1
+                    }">
+                    <div class="square" ng-class="{ 'visited-once': cell.visited === 1 }"></div>
                 </td>
             </tr>
         </table>

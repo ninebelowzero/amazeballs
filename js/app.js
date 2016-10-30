@@ -26,7 +26,7 @@ function MazeController($timeout) {
     }
 
     function Cell() {
-        this.open   = 0;
+        this.visited   = 0;
         this.right  = 0;
         this.below  = 0;
     }
@@ -59,9 +59,9 @@ function MazeController($timeout) {
         var cell = maze.grid[coords[0]][coords[1]];
 
         // Ignores the cell if it has already been visited
-        // if (cell.firstPass.open || cell.secondPass.open) return;
+        // if (cell.firstPass.visited || cell.secondPass.visited) return;
 
-        cell.open = visit;
+        cell.visited = visit;
 
         var neighbors = [],
             directions = [];
@@ -69,7 +69,7 @@ function MazeController($timeout) {
 
         if (coords[0] > 0) {
             neighborCoords = [coords[0] - 1, coords[1]];
-            if (!maze.grid[neighborCoords[0]][neighborCoords[1]].open) {
+            if (!maze.grid[neighborCoords[0]][neighborCoords[1]].visited) {
                 neighbors.push(neighborCoords);
                 directions.push("U");
             }
@@ -77,7 +77,7 @@ function MazeController($timeout) {
 
         if (coords[0] < gridHeight - 1) {
             neighborCoords = [coords[0] + 1, coords[1]];
-            if (!maze.grid[neighborCoords[0]][neighborCoords[1]].open) {
+            if (!maze.grid[neighborCoords[0]][neighborCoords[1]].visited) {
                 neighbors.push(neighborCoords);
                 directions.push("D");
             }
@@ -85,7 +85,7 @@ function MazeController($timeout) {
 
         if (coords[1] > 0) {
             neighborCoords = [coords[0], coords[1] - 1];
-            if (!maze.grid[neighborCoords[0]][neighborCoords[1]].open) {
+            if (!maze.grid[neighborCoords[0]][neighborCoords[1]].visited) {
                 neighbors.push(neighborCoords);
                 directions.push("L");
             }
@@ -93,7 +93,7 @@ function MazeController($timeout) {
 
         if (coords[1] < gridWidth - 1) {
             neighborCoords = [coords[0], coords[1] + 1];
-            if (!maze.grid[neighborCoords[0]][neighborCoords[1]].open) {
+            if (!maze.grid[neighborCoords[0]][neighborCoords[1]].visited) {
                 neighbors.push(neighborCoords);
                 directions.push("R");
             }
