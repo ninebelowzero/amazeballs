@@ -10,7 +10,7 @@ function MazeController($timeout) {
     var gridHeight      = 20,
         gridWidth       = 40,
         startingPoint   = [0, 0],
-        interval        = 20;
+        interval        = 10;
 
     var promises = [];
 
@@ -79,6 +79,27 @@ function MazeController($timeout) {
     }
 
 
+    function backtrack(coords) {
+
+        var cell = maze.grid[coords[0]][coords[1]];
+        cell.visited = 2;
+
+        // Exit the program on returning to the starting point
+        if (coords[0] === startingPoint[0] && coords[1] === startingPoint[1]) return;
+
+        var neighbors = findUnvisitedNeighbors(coords);
+
+        if (neighbors.length > 0) {
+            var r = Math.floor(Math.random() * neighbors.length);
+            promises.push($timeout(clearWall, interval, true, coords, neighbors[r]));
+            return;
+        }
+
+        promises.push($timeout(backtrackAcrossWall, interval, true, coords));
+
+    }
+
+
     // Clear the wall separating the cell from its neighor.
     // This is slightly awkward because of the way the walls are handled in the CSS
     // - each wall belongs to only one cell, not two
@@ -97,22 +118,10 @@ function MazeController($timeout) {
         promises.push($timeout(clearCell, interval, true, newCoords));
     }
 
-    function backtrack(coords) {
+
+    function backtrackAcrossWall(coords) {
 
         var cell = maze.grid[coords[0]][coords[1]];
-        cell.visited = 2;
-
-        if (coords[0] === 0 && coords[1] === 0) return;
-
-        var neighbors = findUnvisitedNeighbors(coords);
-
-        if (neighbors.length > 0) {
-            console.log("Branching needed.");
-            console.log(neighbors);
-            var r = Math.floor(Math.random() * neighbors.length);
-            promises.push($timeout(clearWall, interval, true, coords, neighbors[r]));
-            return;
-        }
 
         if (cell.right === 1) {
             coords.direction = "R";
@@ -123,14 +132,6 @@ function MazeController($timeout) {
         } else if (coords[0] > 0 && maze.grid[coords[0] - 1][coords[1]].below === 1) {
             coords.direction = "U";
         }
-
-        promises.push($timeout(backtrackAcrossWall, interval, true, coords));
-
-    }
-
-    function backtrackAcrossWall(coords) {
-
-        var cell = maze.grid[coords[0]][coords[1]];
 
         if (coords.direction === "R") {
             cell.right = 2;
