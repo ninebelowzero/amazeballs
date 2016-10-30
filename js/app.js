@@ -76,16 +76,32 @@ function MazeController($timeout) {
         // If so, pick one at random and move on
         if (neighbors.length > 0) {
             var r = Math.floor(Math.random() * neighbors.length);
-            promises.push($timeout(clearWall, interval, true, neighbors[r]));
+            promises.push($timeout(clearWall, interval, true, neighbors[r], 1));
             return;
         }
 
         // Otherwise, start backtracking
         if (visit === 1) {
             promises.push($timeout(clearCell, interval, true, coords, 2));
-        } else {
-            promises.push($timeout(backtrackAcrossWall, interval, true, coords));
+            return;
         }
+
+        // If cell is already marked as visited twice, look for the path back
+        if (cell.right === 1) {
+            coords[1]++;
+            coords.direction = "R";
+        } else if (cell.below === 1) {
+            coords[0]++;
+            coords.direction = "D";
+        } else if (coords[1] > 0 && maze.grid[coords[0]][coords[1] - 1].right === 1) {
+            coords[1]--;
+            coords.direction = "L";
+        } else if (coords[0] > 0 && maze.grid[coords[0] - 1][coords[1]].below === 1) {
+            coords[0]--;
+            coords.direction = "U";
+        }
+
+        promises.push($timeout(clearWall, interval, true, coords, 2));
 
     }
 
@@ -93,58 +109,27 @@ function MazeController($timeout) {
     // Clear the wall separating the cell from its neighor.
     // This is slightly awkward because of the way the walls are handled in the CSS
     // - each wall belongs to only one cell, not two
-    function clearWall(coords) {
+    function clearWall(coords, visit) {
 
         var cell = maze.grid[coords[0]][coords[1]];
 
         if (coords.direction === "R") {
-            maze.grid[coords[0]][coords[1] - 1].right = 1;
+            maze.grid[coords[0]][coords[1] - 1].right = visit;
         } else if (coords.direction === "D") {
-            maze.grid[coords[0] - 1][coords[1]].below = 1;
+            maze.grid[coords[0] - 1][coords[1]].below = visit;
         } else if (coords.direction === "L") {
-            cell.right = 1;
+            cell.right = visit;
         } else if (coords.direction === "U") {
-            cell.below = 1;
+            cell.below = visit;
         }
 
-        promises.push($timeout(clearCell, interval, true, coords, 1));
+        promises.push($timeout(clearCell, interval, true, coords, visit));
     }
 
-
-    function backtrackAcrossWall(coords) {
-
-        var cell = maze.grid[coords[0]][coords[1]];
-
-        if (cell.right === 1) {
-            coords.direction = "R";
-        } else if (cell.below === 1) {
-            coords.direction = "D";
-        } else if (coords[1] > 0 && maze.grid[coords[0]][coords[1] - 1].right === 1) {
-            coords.direction = "L";
-        } else if (coords[0] > 0 && maze.grid[coords[0] - 1][coords[1]].below === 1) {
-            coords.direction = "U";
-        }
-
-        if (coords.direction === "R") {
-            cell.right = 2;
-            newCoords = [coords[0], coords[1] + 1];
-        } else if (coords.direction == "D") {
-            cell.below = 2;
-            newCoords = [coords[0] + 1, coords[1]];
-        } else if (coords.direction == "L") {
-            maze.grid[coords[0]][coords[1] - 1].right = 2;
-            newCoords = [coords[0], coords[1] - 1];
-        } else if (coords.direction == "U") {
-            maze.grid[coords[0] - 1][coords[1]].below = 2;
-            newCoords = [coords[0] - 1, coords[1]];
-        }
-
-        promises.push($timeout(clearCell, interval, true, newCoords, 2));
-    }
 
     function findUnvisitedNeighbors(coords) {
 
-        var neighbors   = [];
+        var neighbors = [];
 
         var neighborCoords;
 
