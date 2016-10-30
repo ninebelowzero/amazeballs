@@ -48,70 +48,130 @@ function MazeController($timeout) {
 
     }
 
-    function clearCell(coords, direction) {
+    function clearCell(coords) {
 
         var cell = maze.grid[coords[0]][coords[1]];
+
+        if (cell.open) return;
+
         cell.open = true;
 
-        var neighbor;
+        var neighbors = [],
+            directions = [];
+        var neighborCoords, direction;
 
-        if (direction === "right") {
-
-            if (coords[1] === gridWidth - 1) {
-                return clearCell(coords, "down");
+        if (coords[0] > 0) {
+            neighborCoords = [coords[0] - 1, coords[1]];
+            if (!maze.grid[neighborCoords[0]][neighborCoords[1]].open) {
+                neighbors.push(neighborCoords);
+                directions.push("U");
             }
-            neighbor = maze.grid[coords[0]][coords[1] + 1];
-
-            if (neighbor.open) {
-                return clearCell(coords, "down");
-            }
-
-            cell.right = true;
-            coords[1]++;
-        } else if (direction === "down") {
-
-            if (coords[0] === gridHeight - 1) {
-                return clearCell(coords, "left");
-            }
-
-            neighbor = maze.grid[coords[0] + 1][coords[1]];
-            if (neighbor.open) {
-                return clearCell(coords, "left");
-            }
-
-            cell.below = true;
-            coords[0]++;
-        } else if (direction === "left") {
-
-            if (coords[1] === 0) {
-                return clearCell(coords, "up");
-            }
-
-            neighbor = maze.grid[coords[0]][coords[1] - 1];
-            if (neighbor.open) {
-                return clearCell(coords, "up");
-            }
-
-            neighbor.right = true;
-            coords[1]--;
-        } else if (direction === "up") {
-
-            if (coords[0] === 0) {
-                return clearCell(coords, "right");
-            }
-
-            neighbor = maze.grid[coords[0] - 1][coords[1]];
-            if (neighbor.open) {
-                return clearCell(coords, "right");
-            }
-
-            neighbor.below = true;
-            coords[0]--;
         }
 
-        $timeout(clearCell, interval, true, coords, direction);
+        if (coords[0] < gridHeight - 1) {
+            neighborCoords = [coords[0] + 1, coords[1]];
+            if (!maze.grid[neighborCoords[0]][neighborCoords[1]].open) {
+                neighbors.push(neighborCoords);
+                directions.push("D");
+            }
+        }
+
+        if (coords[1] > 0) {
+            neighborCoords = [coords[0], coords[1] - 1];
+            if (!maze.grid[neighborCoords[0]][neighborCoords[1]].open) {
+                neighbors.push(neighborCoords);
+                directions.push("L");
+            }
+        }
+
+        if (coords[1] < gridWidth - 1) {
+            neighborCoords = [coords[0], coords[1] + 1];
+            if (!maze.grid[neighborCoords[0]][neighborCoords[1]].open) {
+                neighbors.push(neighborCoords);
+                directions.push("R");
+            }
+        }
+
+        if (neighbors.length === 0) return;
+
+        var r = Math.floor(Math.random() * neighbors.length);
+
+        $timeout(clearWall, interval, true, coords, neighbors[r], directions[r]);
 
     }
+
+    function clearWall(originalCoords, newCoords, direction) {
+
+        if (direction === "R") {
+            maze.grid[originalCoords[0]][originalCoords[1]].right = true;
+        } else if (direction === "D") {
+            maze.grid[originalCoords[0]][originalCoords[1]].below = true;
+        } else if (direction === "L") {
+            maze.grid[newCoords[0]][newCoords[1]].right = true;
+        } else if (direction === "U") {
+            maze.grid[newCoords[0]][newCoords[1]].below = true;
+        }
+
+        $timeout(clearCell, interval, true, newCoords);
+    }
+
+    //     if (direction === "right") {
+
+    //         if (coords[1] === gridWidth - 1) {
+    //             return clearCell(coords, "down");
+    //         }
+    //         neighbor = maze.grid[coords[0]][coords[1] + 1];
+
+    //         if (neighbor.open) {
+    //             return clearCell(coords, "down");
+    //         }
+
+    //         cell.right = true;
+    //         coords[1]++;
+    //     } else if (direction === "down") {
+
+    //         if (coords[0] === gridHeight - 1) {
+    //             return clearCell(coords, "left");
+    //         }
+
+    //         neighbor = maze.grid[coords[0] + 1][coords[1]];
+    //         if (neighbor.open) {
+    //             return clearCell(coords, "left");
+    //         }
+
+    //         cell.below = true;
+    //         coords[0]++;
+    //     } else if (direction === "left") {
+
+    //         if (coords[1] === 0) {
+    //             return clearCell(coords, "up");
+    //         }
+
+    //         neighbor = maze.grid[coords[0]][coords[1] - 1];
+    //         if (neighbor.open) {
+    //             return clearCell(coords, "up");
+    //         }
+
+    //         neighbor.right = true;
+    //         coords[1]--;
+    //     } else if (direction === "up") {
+
+    //         if (coords[0] === 0) {
+    //             return clearCell(coords, "right");
+    //         }
+
+    //         neighbor = maze.grid[coords[0] - 1][coords[1]];
+    //         if (neighbor.open) {
+    //             return clearCell(coords, "right");
+    //         }
+
+    //         neighbor.below = true;
+    //         coords[0]--;
+    //     }
+
+    //     $timeout(clearCell, interval, true, coords, direction);
+
+    // }
 
 }
 
