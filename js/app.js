@@ -98,41 +98,42 @@ function MazeController($timeout) {
 
         if (coords[0] === 0 && coords[1] === 0) return;
 
-        if (findUnvisitedNeighbors(coords).length > 0) {
+        var unvisitedNeighbors = findUnvisitedNeighbors(coords);
+
+        if (unvisitedNeighbors.length > 0) {
             console.log("Branching needed.");
+            console.log(unvisitedNeighbors);
             return;
         }
 
-        var direction;
-
         if (cell.right === 1) {
-            direction = "R";
+            coords.direction = "R";
         } else if (cell.below === 1) {
-            direction = "D";
+            coords.direction = "D";
         } else if (coords[1] > 0 && maze.grid[coords[0]][coords[1] - 1].right === 1) {
-            direction = "L";
+            coords.direction = "L";
         } else if (coords[0] > 0 && maze.grid[coords[0] - 1][coords[1]].below === 1) {
-            direction = "U";
+            coords.direction = "U";
         }
 
-        $timeout(backtrackAcrossWall, interval, true, coords, direction);
+        $timeout(backtrackAcrossWall, interval, true, coords);
 
     }
 
-    function backtrackAcrossWall(coords, direction) {
+    function backtrackAcrossWall(coords) {
 
         var cell = maze.grid[coords[0]][coords[1]];
 
-        if (direction === "R") {
+        if (coords.direction === "R") {
             cell.right = 2;
             newCoords = [coords[0], coords[1] + 1];
-        } else if (direction == "D") {
+        } else if (coords.direction == "D") {
             cell.below = 2;
             newCoords = [coords[0] + 1, coords[1]];
-        } else if (direction == "L") {
+        } else if (coords.direction == "L") {
             maze.grid[coords[0]][coords[1] - 1].right = 2;
             newCoords = [coords[0], coords[1] - 1];
-        } else if (direction == "U") {
+        } else if (coords.direction == "U") {
             maze.grid[coords[0] - 1][coords[1]].below = 2;
             newCoords = [coords[0] - 1, coords[1]];
         }
