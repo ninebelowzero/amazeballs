@@ -85,3 +85,12 @@ main.container #visualization-section #maze::after {
   border-right: 10px solid #333;
   border-bottom: 10px solid #333;
 }
+
+main.container #visualization-section .button-container {
+  padding: 40px;
+  text-align: center;
+}
+
+main.container #visualization-section .button-container button {
+  font-family: Audiowide, sans-serif;
+}

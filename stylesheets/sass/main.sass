@@ -3,6 +3,7 @@ $visited-twice-color: white;
 $wall-color: #333
 $cell-height: 10px
 $border-width: 10px
+$amazeballs-font: Audiowide, sans-serif
 
 main.container
     padding-top: 50px
@@ -10,7 +11,7 @@ main.container
 
     h1
         text-align: center
-        font-family: Audiowide, sans-serif
+        font-family: $amazeballs-font
         text-transform: uppercase
 
     #visualization-section
@@ -75,3 +76,9 @@ main.container
             border-right: $border-width solid $wall-color
             border-bottom: $border-width solid $wall-color
 
+        .button-container
+            padding: 40px
+            text-align: center
+
+            button
+                font-family: $amazeballs-font

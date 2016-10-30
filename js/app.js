@@ -12,23 +12,27 @@ function MazeController($timeout) {
         startingPoint   = [0, 0],
         interval        = 20;
 
-    maze.reset = reset;
+    var promises = [];
 
-    // Initializes the maze
+    maze.reset = function() {
+
+        // Need to cancel all outstanding timeouts if you hit the reset button
+        // while the maze is still generating
+        promises.forEach($timeout.cancel);
+
+        maze.grid = buildGrid(gridHeight, gridWidth);
+        clearCell(startingPoint);
+    };
+
+    // Initialize
     maze.reset();
 
 
-    // Functions (hoisted)
-
-    function reset () {
-        maze.grid = buildGrid(gridHeight, gridWidth);
-        findPath(startingPoint);
-    }
-
+    // A constructor for cells in the grid
     function Cell() {
-        this.visited   = 0;
-        this.right  = 0;
-        this.below  = 0;
+        this.visited    = 0;
+        this.right      = 0;
+        this.below      = 0;
     }
 
     // Creates the blank grid
@@ -47,12 +51,6 @@ function MazeController($timeout) {
         return grid;
     }
 
-    // Gradually clears a series of paths for the maze
-    function findPath(coords) {
-
-        clearCell(coords, 1);
-
-    }
 
     function clearCell(coords) {
 
@@ -66,22 +64,17 @@ function MazeController($timeout) {
         var neighbors = findUnvisitedNeighbors(coords);
 
         if (neighbors.length === 0) {
-            $timeout(backtrack, interval, true, coords);
+            promises.push($timeout(backtrack, interval, true, coords));
             return;
         }
 
         var r = Math.floor(Math.random() * neighbors.length);
 
-        $timeout(clearWall, interval, true, coords, neighbors[r]);
+        promises.push($timeout(clearWall, interval, true, coords, neighbors[r]));
 
     }
 
     function clearWall(originalCoords, newCoords) {
-
-        // Horizontal bias
-        // if (newCoords.direction === "U" || newCoords.direction === "D") {
-        //     if (Math.random() * 3 < 2.5) return clearCell(originalCoords);
-        // }
 
         if (newCoords.direction === "R") {
             maze.grid[originalCoords[0]][originalCoords[1]].right = 1;
@@ -93,7 +86,7 @@ function MazeController($timeout) {
             maze.grid[newCoords[0]][newCoords[1]].below = 1;
         }
 
-        $timeout(clearCell, interval, true, newCoords);
+        promises.push($timeout(clearCell, interval, true, newCoords));
     }
 
     function backtrack(coords) {
@@ -109,7 +102,7 @@ function MazeController($timeout) {
             console.log("Branching needed.");
             console.log(neighbors);
             var r = Math.floor(Math.random() * neighbors.length);
-            $timeout(clearWall, interval, true, coords, neighbors[r]);
+            promises.push($timeout(clearWall, interval, true, coords, neighbors[r]));
             return;
         }
 
@@ -123,7 +116,7 @@ function MazeController($timeout) {
             coords.direction = "U";
         }
 
-        $timeout(backtrackAcrossWall, interval, true, coords);
+        promises.push($timeout(backtrackAcrossWall, interval, true, coords));
 
     }
 
@@ -145,7 +138,7 @@ function MazeController($timeout) {
             newCoords = [coords[0] - 1, coords[1]];
         }
 
-        $timeout(backtrack, interval, true, newCoords);
+        promises.push($timeout(backtrack, interval, true, newCoords));
     }
 
     function findUnvisitedNeighbors(coords) {
