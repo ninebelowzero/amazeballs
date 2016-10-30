@@ -36,9 +36,15 @@
                     ng-repeat="cell in row track by $index"
                     ng-class="{
                         'visited-right-once': cell.right === 1,
-                        'visited-below-once': cell.below === 1
+                        'visited-below-once': cell.below === 1,
+                        'visited-right-twice': cell.right === 2,
+                        'visited-below-twice': cell.below === 2
                     }">
-                    <div class="square" ng-class="{ 'visited-once': cell.visited === 1 }"></div>
+                    <div class="square" ng-class="{
+                        'visited-once': cell.visited === 1,
+                        'visited-twice': cell.visited === 2
+                        }">
+                    </div>
                 </td>
             </tr>
         </table>

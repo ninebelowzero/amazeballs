@@ -40,6 +40,10 @@ main.container #visualization-section #maze td .square {
 }
 
 main.container #visualization-section #maze td .square.visited-once {
+  background-color: deepskyblue;
+}
+
+main.container #visualization-section #maze td .square.visited-twice {
   background-color: white;
 }
 
@@ -55,10 +59,18 @@ main.container #visualization-section #maze td .square::before {
 }
 
 main.container #visualization-section #maze td.visited-right-once {
-  border-right-color: white;
+  border-right-color: deepskyblue;
 }
 
 main.container #visualization-section #maze td.visited-below-once {
+  border-bottom-color: deepskyblue;
+}
+
+main.container #visualization-section #maze td.visited-right-twice {
+  border-right-color: white;
+}
+
+main.container #visualization-section #maze td.visited-below-twice {
   border-bottom-color: white;
 }
 

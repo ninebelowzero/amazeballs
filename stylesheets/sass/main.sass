@@ -1,4 +1,5 @@
-$open-color: white;
+$visited-once-color: deepskyblue;
+$visited-twice-color: white;
 $wall-color: #333
 $cell-height: 10px
 $border-width: 10px
@@ -39,7 +40,9 @@ main.container
                     background-color: $wall-color
 
                 .square.visited-once
-                    background-color: $open-color
+                    background-color: $visited-once-color
+                .square.visited-twice
+                    background-color: $visited-twice-color
 
                 .square::before
                     content: ""
@@ -52,9 +55,13 @@ main.container
                     bottom: $cell-height
 
             td.visited-right-once
-                border-right-color: $open-color
+                border-right-color: $visited-once-color
             td.visited-below-once
-                border-bottom-color: $open-color
+                border-bottom-color: $visited-once-color
+            td.visited-right-twice
+                border-right-color: $visited-twice-color
+            td.visited-below-twice
+                border-bottom-color: $visited-twice-color
 
         // Pseudo element to cover the edges of the maze where you can get weird border effects
         #maze::after
@@ -67,8 +74,4 @@ main.container
             bottom: 0
             border-right: $border-width solid $wall-color
             border-bottom: $border-width solid $wall-color
-
-
-
-
 
