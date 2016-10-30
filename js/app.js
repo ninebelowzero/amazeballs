@@ -89,16 +89,16 @@ function MazeController($timeout) {
         // If cell is already marked as visited twice, look for the path back
         if (cell.right === 1) {
             coords[1]++;
-            coords.direction = "R";
+            coords.direction = 0;
         } else if (cell.below === 1) {
             coords[0]++;
-            coords.direction = "D";
+            coords.direction = 1;
         } else if (coords[1] > 0 && maze.grid[coords[0]][coords[1] - 1].right === 1) {
             coords[1]--;
-            coords.direction = "L";
+            coords.direction = 2;
         } else if (coords[0] > 0 && maze.grid[coords[0] - 1][coords[1]].below === 1) {
             coords[0]--;
-            coords.direction = "U";
+            coords.direction = 3;
         }
 
         promises.push($timeout(clearWall, interval, true, coords, 2));
@@ -106,20 +106,20 @@ function MazeController($timeout) {
     }
 
 
-    // Clear the wall separating the cell from its neighor.
+    // Clear the wall separating the cell from its neighbor.
     // This is slightly awkward because of the way the walls are handled in the CSS
     // - each wall belongs to only one cell, not two
     function clearWall(coords, visit) {
 
         var cell = maze.grid[coords[0]][coords[1]];
 
-        if (coords.direction === "R") {
+        if (coords.direction === 0) {
             maze.grid[coords[0]][coords[1] - 1].right = visit;
-        } else if (coords.direction === "D") {
+        } else if (coords.direction === 1) {
             maze.grid[coords[0] - 1][coords[1]].below = visit;
-        } else if (coords.direction === "L") {
+        } else if (coords.direction === 2) {
             cell.right = visit;
-        } else if (coords.direction === "U") {
+        } else if (coords.direction === 3) {
             cell.below = visit;
         }
 
@@ -131,39 +131,38 @@ function MazeController($timeout) {
 
         var neighbors = [];
 
-        var neighborCoords;
+        // Convert coords into a Sylvestor.js vector object
+        coords = $V(coords);
 
-        if (coords[0] > 0) {
-            neighborCoords = [coords[0] - 1, coords[1]];
-            if (!maze.grid[neighborCoords[0]][neighborCoords[1]].visited) {
-                neighborCoords.direction = "U";
-                neighbors.push(neighborCoords);
-            }
-        }
+        var vectors = [
+            $V([0, 1]),
+            $V([1, 0]),
+            $V([0, -1]),
+            $V([-1, 0])
+        ];
 
-        if (coords[0] < gridHeight - 1) {
-            neighborCoords = [coords[0] + 1, coords[1]];
-            if (!maze.grid[neighborCoords[0]][neighborCoords[1]].visited) {
-                neighborCoords.direction = "D";
-                neighbors.push(neighborCoords);
-            }
-        }
+        vectors.forEach(function(vector, i) {
 
-        if (coords[1] > 0) {
-            neighborCoords = [coords[0], coords[1] - 1];
-            if (!maze.grid[neighborCoords[0]][neighborCoords[1]].visited) {
-                neighborCoords.direction = "L";
-                neighbors.push(neighborCoords);
+            try {
+                // v represents the coordinates of a neighboring cell
+                v = coords.add(vector);
+                // Check if v has been visited. NB: Vector indices start from 1, not 0
+                if (!maze.grid[v.e(1)][v.e(2)].visited) {
+                    // If not visited, add it to the list
+                    var neighbor = v.elements;
+                    // Storing i, the index of the original vector, tells us which
+                    // direction we're moving in. That's used in the clearWall function
+                    neighbor.direction = i;
+                    neighbors.push(neighbor);
+                }
             }
-        }
-
-        if (coords[1] < gridWidth - 1) {
-            neighborCoords = [coords[0], coords[1] + 1];
-            if (!maze.grid[neighborCoords[0]][neighborCoords[1]].visited) {
-                neighborCoords.direction = "R";
-                neighbors.push(neighborCoords);
+            catch (error) {
+                console.log("Error:", error);
+                // JavaScript will shout if you try to access an array with an index
+                // that falls out of range - either because it's negative or because it
+                // is larger than the size of the array. Either way, no biggie.
             }
-        }
+        });
 
         return neighbors;
     }
