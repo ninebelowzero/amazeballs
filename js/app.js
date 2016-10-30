@@ -76,7 +76,7 @@ function MazeController($timeout) {
         // If so, pick one at random and move on
         if (neighbors.length > 0) {
             var r = Math.floor(Math.random() * neighbors.length);
-            promises.push($timeout(clearWall, interval, true, coords, neighbors[r]));
+            promises.push($timeout(clearWall, interval, true, neighbors[r]));
             return;
         }
 
@@ -93,19 +93,21 @@ function MazeController($timeout) {
     // Clear the wall separating the cell from its neighor.
     // This is slightly awkward because of the way the walls are handled in the CSS
     // - each wall belongs to only one cell, not two
-    function clearWall(originalCoords, newCoords) {
+    function clearWall(coords) {
 
-        if (newCoords.direction === "R") {
-            maze.grid[originalCoords[0]][originalCoords[1]].right = 1;
-        } else if (newCoords.direction === "D") {
-            maze.grid[originalCoords[0]][originalCoords[1]].below = 1;
-        } else if (newCoords.direction === "L") {
-            maze.grid[newCoords[0]][newCoords[1]].right = 1;
-        } else if (newCoords.direction === "U") {
-            maze.grid[newCoords[0]][newCoords[1]].below = 1;
+        var cell = maze.grid[coords[0]][coords[1]];
+
+        if (coords.direction === "R") {
+            maze.grid[coords[0]][coords[1] - 1].right = 1;
+        } else if (coords.direction === "D") {
+            maze.grid[coords[0] - 1][coords[1]].below = 1;
+        } else if (coords.direction === "L") {
+            cell.right = 1;
+        } else if (coords.direction === "U") {
+            cell.below = 1;
         }
 
-        promises.push($timeout(clearCell, interval, true, newCoords, 1));
+        promises.push($timeout(clearCell, interval, true, coords, 1));
     }
 
 
