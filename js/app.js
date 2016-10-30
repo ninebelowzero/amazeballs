@@ -71,7 +71,6 @@ function MazeController($timeout) {
         }
 
         var r = Math.floor(Math.random() * neighbors.length);
-
         $timeout(clearWall, interval, true, coords, neighbors[r]);
 
     }
@@ -98,11 +97,13 @@ function MazeController($timeout) {
 
         if (coords[0] === 0 && coords[1] === 0) return;
 
-        var unvisitedNeighbors = findUnvisitedNeighbors(coords);
+        var neighbors = findUnvisitedNeighbors(coords);
 
-        if (unvisitedNeighbors.length > 0) {
+        if (neighbors.length > 0) {
             console.log("Branching needed.");
-            console.log(unvisitedNeighbors);
+            console.log(neighbors);
+            var r = Math.floor(Math.random() * neighbors.length);
+            $timeout(clearWall, interval, true, coords, neighbors[r]);
             return;
         }
 
