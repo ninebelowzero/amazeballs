@@ -34,6 +34,21 @@ function MazeController($timeout) {
      *********************
      */
 
+    // Extending Sylvester's Matrix type with some syntactic sugar to making it
+    // trivial to access an element, given its coordinates as a Vector
+    Matrix.prototype.at = function(v) {
+        if (!(v instanceof Vector)) throw TypeError("Input must be a Vector object.");
+
+        // Reversing the intuitive order here, since my vectors were originally
+        // based on nested arrays, meaning the first element represented the column
+        // and the second the row. Matrices work the other way round.
+        // Also converting from zero-indexing to 1-indexing
+        var i = v.e(2) + 1;
+        var j = v.e(1) + 1;
+
+        return this.e(i, j);
+    };
+
     // A constructor for cells in the grid
     function Cell() {
         this.visited    = 0;
