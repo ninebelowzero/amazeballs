@@ -6,10 +6,11 @@ function MazeController($timeout) {
     var maze = this;
 
     // Parameters controlling the maze and animation
+    // - 'globally' available within the controller
     var gridHeight      = 10,
         gridWidth       = 10,
         startingPoint   = [0, 0],
-        interval        = 500;
+        interval        = 200;
 
     maze.reset = reset;
 
@@ -43,82 +44,140 @@ function MazeController($timeout) {
     // Gradually clears a series of paths for the maze
     function findPath(coords) {
 
-        var count = 50;
+        clearCell(coords, "right");
 
-        clearCell();
+    }
 
-        function clearCell() {
+    function clearCell(coords, direction) {
 
-            var cell = maze.grid[coords[0]][coords[1]];
-            cell.open = true;
+        var cell = maze.grid[coords[0]][coords[1]];
+        cell.open = true;
 
-            var r = Math.random();
-            console.log("r:", r);
-            var neighbor;
+        var neighbor;
 
-            if (r < 0.25) {
-                console.log("Move down");
-                try {
-                    neighbor = maze.grid[coords[0] + 1][coords[1]];
-                    if (neighbor.open) {
-                        clearCell();
-                    } else {
-                        cell.below = true;
-                        coords[0]++;
-                    }
-                }
-                catch (e) {
-                //     // Will be triggered when the algorithm looks outside the grid area
-                //     // - no biggie
-                    return clearCell();
-                }
+        if (direction === "right") {
 
-            } else if (r < 0.5) {
-                console.log("Move right");
-                try {
-                    neighbor = maze.grid[coords[0]][coords[1] + 1];
-                    if (neighbor.open) {
-                        clearCell();
-                    } else {
-                        cell.right = true;
-                        coords[1]++;
-                    }
-                }
-                catch (e) { return clearCell();}
+            if (coords[1] === gridWidth - 1) {
+                return clearCell(coords, "down");
+            }
+            neighbor = maze.grid[coords[0]][coords[1] + 1];
 
-            } else if (r < 0.75) {
-                console.log("Move up");
-                try {
-                    neighbor = maze.grid[coords[0] - 1][coords[1]];
-                    if (neighbor.open) {
-                        clearCell();
-                    } else {
-                        neighbor.below = true;
-                        coords[0]--;
-                    }
-                } catch (e) {return clearCell();}
-
-            } else {
-                console.log("Move left");
-                try {
-                    neighbor = maze.grid[coords[0]][coords[1] - 1];
-                    if (neighbor.open) {
-                        clearCell();
-                    } else {
-                        neighbor.right = true;
-                        coords[1]--;
-                    }
-                } catch(e) {return clearCell();}
-
+            if (neighbor.open) {
+                return clearCell(coords, "down");
             }
 
-            count--;
+            cell.right = true;
+            coords[1]++;
+        } else if (direction === "down") {
 
-            if (count > 0) {
-                $timeout(clearCell, interval);
+            if (coords[0] === gridHeight - 1) {
+                return clearCell(coords, "left");
             }
+
+            neighbor = maze.grid[coords[0] + 1][coords[1]];
+            if (neighbor.open) {
+                return clearCell(coords, "left");
+            }
+
+            cell.below = true;
+            coords[0]++;
+        } else if (direction === "left") {
+
+            if (coords[1] === 0) {
+                return clearCell(coords, "up");
+            }
+
+            neighbor = maze.grid[coords[0]][coords[1] - 1];
+            if (neighbor.open) {
+                return clearCell(coords, "up");
+            }
+
+            neighbor.right = true;
+            coords[1]--;
+        } else if (direction === "up") {
+
+            if (coords[0] === 0) {
+                return clearCell(coords, "right");
+            }
+
+            neighbor = maze.grid[coords[0] - 1][coords[1]];
+            if (neighbor.open) {
+                return clearCell(coords, "right");
+            }
+
+            neighbor.below = true;
+            coords[0]--;
         }
+
+        $timeout(clearCell, interval, true, coords, direction);
 
     }
 
 }
+
+
+
+
+
+
+
+
+// var r = Math.random();
+// console.log("r:", r);
+// var neighbor;
+
+// if (r < 0.25) {
+//     console.log("Move down");
+//     try {
+//         neighbor = maze.grid[coords[0] + 1][coords[1]];
+//         if (neighbor.open) {
+//             clearCell();
+//         } else {
+//             cell.below = true;
+//             coords[0]++;
+//         }
+//     }
+//     catch (e) {
+//     //     // Will be triggered when the algorithm looks outside the grid area
+//     //     // - no biggie
+//         return clearCell();
+//     }
+
+// } else if (r < 0.5) {
+    // console.log("Move right");
+    // // try {
+    //     neighbor = maze.grid[coords[0]][coords[1] + 1];
+    //     if (neighbor.open) {
+    //         clearCell();
+    //     } else {
+    //         cell.right = true;
+    //         coords[1]++;
+    //     }
+    // }
+    // catch (e) { return clearCell();}
+
+// } else if (r < 0.75) {
+//     console.log("Move up");
+//     try {
+//         neighbor = maze.grid[coords[0] - 1][coords[1]];
+//         if (neighbor.open) {
+//             clearCell();
+//         } else {
+//             neighbor.below = true;
+//             coords[0]--;
+//         }
+//     } catch (e) {return clearCell();}
+
+// } else {
+//     console.log("Move left");
+//     try {
+//         neighbor = maze.grid[coords[0]][coords[1] - 1];
+//         if (neighbor.open) {
+//             clearCell();
+//         } else {
+//             neighbor.right = true;
+//             coords[1]--;
+//         }
+//     } catch(e) {return clearCell();}
+
+// }
