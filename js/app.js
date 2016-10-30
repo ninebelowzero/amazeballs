@@ -7,10 +7,10 @@ function MazeController($timeout) {
 
     // Parameters controlling the maze and animation
     // - 'globally' available within the controller
-    var gridHeight      = 10,
-        gridWidth       = 10,
+    var gridHeight      = 20,
+        gridWidth       = 40,
         startingPoint   = [0, 0],
-        interval        = 100;
+        interval        = 20;
 
     maze.reset = reset;
 
@@ -71,11 +71,17 @@ function MazeController($timeout) {
         }
 
         var r = Math.floor(Math.random() * neighbors.length);
+
         $timeout(clearWall, interval, true, coords, neighbors[r]);
 
     }
 
     function clearWall(originalCoords, newCoords) {
+
+        // Horizontal bias
+        // if (newCoords.direction === "U" || newCoords.direction === "D") {
+        //     if (Math.random() * 3 < 2.5) return clearCell(originalCoords);
+        // }
 
         if (newCoords.direction === "R") {
             maze.grid[originalCoords[0]][originalCoords[1]].right = 1;
