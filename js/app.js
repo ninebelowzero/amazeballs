@@ -21,7 +21,7 @@ function MazeController($timeout) {
         promises.forEach($timeout.cancel);
 
         maze.grid = buildGrid(gridHeight, gridWidth);
-        clearCell(startingPoint);
+        clearCell(startingPoint, 1);
     };
 
     // Initialize
@@ -58,44 +58,34 @@ function MazeController($timeout) {
     }
 
 
-    function clearCell(coords) {
+    function clearCell(coords, visit) {
 
         var cell = maze.grid[coords[0]][coords[1]];
 
-        cell.visited = 1;
+        // Set to 1 on first visit (blue by default), 2 on second visit (white)
+        cell.visited = visit;
 
-        var neighbors = findUnvisitedNeighbors(coords);
-
-        // If all neighboring cells have been visited, start backtracking
-        if (neighbors.length === 0) {
-            promises.push($timeout(backtrack, interval, true, coords));
+        // Exit the program on returning to the starting point for a second time
+        if (visit === 2 && coords[0] === startingPoint[0] && coords[1] === startingPoint[1]) {
             return;
         }
 
-        // Otherwise, pick a neighbor at random and move on
-        var r = Math.floor(Math.random() * neighbors.length);
-        promises.push($timeout(clearWall, interval, true, coords, neighbors[r]));
-
-    }
-
-
-    function backtrack(coords) {
-
-        var cell = maze.grid[coords[0]][coords[1]];
-        cell.visited = 2;
-
-        // Exit the program on returning to the starting point
-        if (coords[0] === startingPoint[0] && coords[1] === startingPoint[1]) return;
-
+        //  Checks if any neighboring cells have not yet been visited
         var neighbors = findUnvisitedNeighbors(coords);
 
+        // If so, pick one at random and move on
         if (neighbors.length > 0) {
             var r = Math.floor(Math.random() * neighbors.length);
             promises.push($timeout(clearWall, interval, true, coords, neighbors[r]));
             return;
         }
 
-        promises.push($timeout(backtrackAcrossWall, interval, true, coords));
+        // Otherwise, start backtracking
+        if (visit === 1) {
+            promises.push($timeout(clearCell, interval, true, coords, 2));
+        } else {
+            promises.push($timeout(backtrackAcrossWall, interval, true, coords));
+        }
 
     }
 
@@ -115,7 +105,7 @@ function MazeController($timeout) {
             maze.grid[newCoords[0]][newCoords[1]].below = 1;
         }
 
-        promises.push($timeout(clearCell, interval, true, newCoords));
+        promises.push($timeout(clearCell, interval, true, newCoords, 1));
     }
 
 
@@ -147,7 +137,7 @@ function MazeController($timeout) {
             newCoords = [coords[0] - 1, coords[1]];
         }
 
-        promises.push($timeout(backtrack, interval, true, newCoords));
+        promises.push($timeout(clearCell, interval, true, newCoords, 2));
     }
 
     function findUnvisitedNeighbors(coords) {
