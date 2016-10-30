@@ -66,9 +66,7 @@ function MazeController($timeout) {
         cell.visited = visit;
 
         // Exit the program on returning to the starting point for a second time
-        if (visit === 2 && coords[0] === startingPoint[0] && coords[1] === startingPoint[1]) {
-            return;
-        }
+        if (visit === 2 && $V(coords).eql(startingPoint)) return;
 
         //  Checks if any neighboring cells have not yet been visited
         var neighbors = findUnvisitedNeighbors(coords);
@@ -131,7 +129,7 @@ function MazeController($timeout) {
 
         var neighbors = [];
 
-        // Convert coords into a Sylvestor.js vector object
+        // Convert coords into a Sylvester.js vector object - without this the logic is ugly
         coords = $V(coords);
 
         var vectors = [
@@ -157,7 +155,6 @@ function MazeController($timeout) {
                 }
             }
             catch (error) {
-                console.log("Error:", error);
                 // JavaScript will shout if you try to access an array with an index
                 // that falls out of range - either because it's negative or because it
                 // is larger than the size of the array. Either way, no biggie.
