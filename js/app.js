@@ -7,8 +7,8 @@ function MazeController($timeout) {
 
     // Parameters controlling the maze and animation
     // - 'globally' available within the controller
-    var gridHeight      = 20,
-        gridWidth       = 20,
+    var gridHeight      = 10,
+        gridWidth       = 10,
         startingPoint   = [0, 0],
         interval        = 100;
 
@@ -100,8 +100,8 @@ function MazeController($timeout) {
         }
 
         if (neighbors.length === 0) {
+            $timeout(backtrack, interval, true, coords);
             return;
-            // $timeout(clearCell, interval, true, coords, "secondPass");
         }
 
         var r = Math.floor(Math.random() * neighbors.length);
@@ -123,6 +123,50 @@ function MazeController($timeout) {
         }
 
         $timeout(clearCell, interval, true, newCoords, 1);
+    }
+
+    function backtrack(coords) {
+
+        var cell = maze.grid[coords[0]][coords[1]];
+        cell.visited = 2;
+
+        if (coords[0] === 0 && coords[1] === 0) return;
+
+        var direction;
+
+        if (cell.right === 1) {
+            direction = "R";
+        } else if (cell.below === 1) {
+            direction = "D";
+        } else if (coords[1] > 0 && maze.grid[coords[0]][coords[1] - 1].right === 1) {
+            direction = "L";
+        } else if (coords[0] > 0 && maze.grid[coords[0] - 1][coords[1]].below === 1) {
+            direction = "U";
+        }
+
+        $timeout(backtrackAcrossWall, interval, true, coords, direction);
+
+    }
+
+    function backtrackAcrossWall(coords, direction) {
+
+        var cell = maze.grid[coords[0]][coords[1]];
+
+        if (direction === "R") {
+            cell.right = 2;
+            newCoords = [coords[0], coords[1] + 1];
+        } else if (direction == "D") {
+            cell.below = 2;
+            newCoords = [coords[0] + 1, coords[1]];
+        } else if (direction == "L") {
+            maze.grid[coords[0]][coords[1] - 1].right = 2;
+            newCoords = [coords[0], coords[1] - 1];
+        } else if (direction == "U") {
+            maze.grid[coords[0] - 1][coords[1]].below = 2;
+            newCoords = [coords[0] - 1, coords[1]];
+        }
+
+        $timeout(backtrack, interval, true, newCoords);
     }
 
 }
