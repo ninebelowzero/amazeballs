@@ -54,50 +54,16 @@ function MazeController($timeout) {
 
     }
 
-    function clearCell(coords, visit) {
+    function clearCell(coords) {
 
         var cell = maze.grid[coords[0]][coords[1]];
 
         // Ignores the cell if it has already been visited
         // if (cell.firstPass.visited || cell.secondPass.visited) return;
 
-        cell.visited = visit;
+        cell.visited = 1;
 
-        var neighbors = [],
-            directions = [];
-        var neighborCoords, direction;
-
-        if (coords[0] > 0) {
-            neighborCoords = [coords[0] - 1, coords[1]];
-            if (!maze.grid[neighborCoords[0]][neighborCoords[1]].visited) {
-                neighbors.push(neighborCoords);
-                directions.push("U");
-            }
-        }
-
-        if (coords[0] < gridHeight - 1) {
-            neighborCoords = [coords[0] + 1, coords[1]];
-            if (!maze.grid[neighborCoords[0]][neighborCoords[1]].visited) {
-                neighbors.push(neighborCoords);
-                directions.push("D");
-            }
-        }
-
-        if (coords[1] > 0) {
-            neighborCoords = [coords[0], coords[1] - 1];
-            if (!maze.grid[neighborCoords[0]][neighborCoords[1]].visited) {
-                neighbors.push(neighborCoords);
-                directions.push("L");
-            }
-        }
-
-        if (coords[1] < gridWidth - 1) {
-            neighborCoords = [coords[0], coords[1] + 1];
-            if (!maze.grid[neighborCoords[0]][neighborCoords[1]].visited) {
-                neighbors.push(neighborCoords);
-                directions.push("R");
-            }
-        }
+        var neighbors = findUnvisitedNeighbors(coords);
 
         if (neighbors.length === 0) {
             $timeout(backtrack, interval, true, coords);
@@ -106,23 +72,23 @@ function MazeController($timeout) {
 
         var r = Math.floor(Math.random() * neighbors.length);
 
-        $timeout(clearWall, interval, true, coords, neighbors[r], directions[r], visit);
+        $timeout(clearWall, interval, true, coords, neighbors[r]);
 
     }
 
-    function clearWall(originalCoords, newCoords, direction, visit) {
+    function clearWall(originalCoords, newCoords) {
 
-        if (direction === "R") {
-            maze.grid[originalCoords[0]][originalCoords[1]].right = visit;
-        } else if (direction === "D") {
-            maze.grid[originalCoords[0]][originalCoords[1]].below = visit;
-        } else if (direction === "L") {
-            maze.grid[newCoords[0]][newCoords[1]].right = visit;
-        } else if (direction === "U") {
-            maze.grid[newCoords[0]][newCoords[1]].below = visit;
+        if (newCoords.direction === "R") {
+            maze.grid[originalCoords[0]][originalCoords[1]].right = 1;
+        } else if (newCoords.direction === "D") {
+            maze.grid[originalCoords[0]][originalCoords[1]].below = 1;
+        } else if (newCoords.direction === "L") {
+            maze.grid[newCoords[0]][newCoords[1]].right = 1;
+        } else if (newCoords.direction === "U") {
+            maze.grid[newCoords[0]][newCoords[1]].below = 1;
         }
 
-        $timeout(clearCell, interval, true, newCoords, 1);
+        $timeout(clearCell, interval, true, newCoords);
     }
 
     function backtrack(coords) {
@@ -131,6 +97,11 @@ function MazeController($timeout) {
         cell.visited = 2;
 
         if (coords[0] === 0 && coords[1] === 0) return;
+
+        if (findUnvisitedNeighbors(coords).length > 0) {
+            console.log("Branching needed.");
+            return;
+        }
 
         var direction;
 
@@ -167,6 +138,48 @@ function MazeController($timeout) {
         }
 
         $timeout(backtrack, interval, true, newCoords);
+    }
+
+    function findUnvisitedNeighbors(coords) {
+
+        var neighbors = [],
+            directions = [];
+
+        var neighborCoords, direction;
+
+        if (coords[0] > 0) {
+            neighborCoords = [coords[0] - 1, coords[1]];
+            if (!maze.grid[neighborCoords[0]][neighborCoords[1]].visited) {
+                neighborCoords.direction = "U";
+                neighbors.push(neighborCoords);
+            }
+        }
+
+        if (coords[0] < gridHeight - 1) {
+            neighborCoords = [coords[0] + 1, coords[1]];
+            if (!maze.grid[neighborCoords[0]][neighborCoords[1]].visited) {
+                neighborCoords.direction = "D";
+                neighbors.push(neighborCoords);
+            }
+        }
+
+        if (coords[1] > 0) {
+            neighborCoords = [coords[0], coords[1] - 1];
+            if (!maze.grid[neighborCoords[0]][neighborCoords[1]].visited) {
+                neighborCoords.direction = "L";
+                neighbors.push(neighborCoords);
+            }
+        }
+
+        if (coords[1] < gridWidth - 1) {
+            neighborCoords = [coords[0], coords[1] + 1];
+            if (!maze.grid[neighborCoords[0]][neighborCoords[1]].visited) {
+                neighborCoords.direction = "R";
+                neighbors.push(neighborCoords);
+            }
+        }
+
+        return neighbors;
     }
 
 }
