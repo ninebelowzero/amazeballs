@@ -10,15 +10,10 @@ function MazeController($timeout) {
     var gridHeight      = 20,
         gridWidth       = 40;
 
+    maze.colorScheme = "classic";
     maze.startingCol    = 0;
     maze.startingRow    = 0;
     maze.interval       = 20;
-
-    maze.colorScheme = "classic";
-
-    maze.changeColors = function() {
-        console.log("Changed.");
-    };
 
     var promises = [];
     var startingPoint;
