@@ -55,12 +55,14 @@
 
             <label>
                 Starting point
-                <input type="number" name="interval">
-                <input type="number" name="interval">
+                <input type="number" min="0" max="39" name="starting_row" ng-model="maze.startingRow">
+                <input type="number" min="0" max="19" name="starting_col" ng-model="maze.startingCol">
             </label>
 
-            <label>Interval (ms) <input type="number" name="interval"></label>
-
+            <label>
+                Delay (ms)
+                <input type="number" min="0" max="100" name="interval" ng-model="maze.interval">
+            </label>
 
             <button ng-click="maze.reset()">Reset</button>
 

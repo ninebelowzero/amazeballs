@@ -15,6 +15,7 @@ function MazeController($timeout) {
     maze.interval       = 20;
 
     var promises = [];
+    var startingPoint;
 
     maze.reset = function() {
 
@@ -23,7 +24,8 @@ function MazeController($timeout) {
         promises.forEach($timeout.cancel);
 
         maze.grid = buildGrid(gridHeight, gridWidth);
-        clearCell([maze.startingCol, maze.startingRow], 1);
+        startingPoint = [maze.startingCol, maze.startingRow];
+        clearCell(startingPoint, 1);
     };
 
     // Initialize
@@ -68,7 +70,7 @@ function MazeController($timeout) {
         cell.visited = visit;
 
         // Exit the program on returning to the starting point for a second time
-        if (visit === 2 && $V(coords).eql([maze.startingCol, maze.startingRow])) return;
+        if (visit === 2 && $V(coords).eql(startingPoint)) return;
 
         //  Checks if any neighboring cells have not yet been visited
         var neighbors = findUnvisitedNeighbors(coords);
