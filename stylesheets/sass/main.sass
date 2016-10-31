@@ -2,7 +2,6 @@ $visited-once-color: deepskyblue;
 $visited-twice-color: white;
 $wall-color: #333
 $cell-height: 10px
-$border-width: 10px
 $amazeballs-font: Audiowide, sans-serif
 
 main.container
@@ -23,14 +22,14 @@ main.container
             text-align: center
             border-collapse: separate;
             border-spacing: 0;
-            border-top: $border-width solid $wall-color
-            border-left: $border-width solid $wall-color
+            border-top: $cell-height solid $wall-color
+            border-left: $cell-height solid $wall-color
             position: relative;
 
             td
                 text-align: center
-                border-right: $border-width solid $wall-color
-                border-bottom: $border-width solid $wall-color
+                border-right: $cell-height solid $wall-color
+                border-bottom: $cell-height solid $wall-color
                 border-top: none
                 border-left: none
                 padding: 0
@@ -74,12 +73,21 @@ main.container
             position: absolute
             right: 0
             bottom: 0
-            border-right: $border-width solid $wall-color
-            border-bottom: $border-width solid $wall-color
+            border-right: $cell-height solid $wall-color
+            border-bottom: $cell-height solid $wall-color
 
         .button-container
             padding: 20px
             text-align: center
+
+            *
+                display: inline-block
+
+            input[type="number"]
+                width: 70px
+
+            label
+                padding-right: 10px
 
             button
                 font-family: $amazeballs-font

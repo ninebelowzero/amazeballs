@@ -8,9 +8,11 @@ function MazeController($timeout) {
     // Parameters controlling the maze and animation
     // - 'globally' available within the controller
     var gridHeight      = 20,
-        gridWidth       = 40,
-        startingPoint   = [0, 0],
-        interval        = 20;
+        gridWidth       = 40;
+
+    maze.startingCol    = 0;
+    maze.startingRow    = 0;
+    maze.interval       = 20;
 
     var promises = [];
 
@@ -21,7 +23,7 @@ function MazeController($timeout) {
         promises.forEach($timeout.cancel);
 
         maze.grid = buildGrid(gridHeight, gridWidth);
-        clearCell(startingPoint, 1);
+        clearCell([maze.startingCol, maze.startingRow], 1);
     };
 
     // Initialize
@@ -66,7 +68,7 @@ function MazeController($timeout) {
         cell.visited = visit;
 
         // Exit the program on returning to the starting point for a second time
-        if (visit === 2 && $V(coords).eql(startingPoint)) return;
+        if (visit === 2 && $V(coords).eql([maze.startingCol, maze.startingRow])) return;
 
         //  Checks if any neighboring cells have not yet been visited
         var neighbors = findUnvisitedNeighbors(coords);
@@ -74,13 +76,13 @@ function MazeController($timeout) {
         // If so, pick one at random and move on
         if (neighbors.length > 0) {
             var r = Math.floor(Math.random() * neighbors.length);
-            promises.push($timeout(clearWall, interval, true, neighbors[r], 1));
+            promises.push($timeout(clearWall, maze.interval, true, neighbors[r], 1));
             return;
         }
 
         // Otherwise, start backtracking
         if (visit === 1) {
-            promises.push($timeout(clearCell, interval, true, coords, 2));
+            promises.push($timeout(clearCell, maze.interval, true, coords, 2));
             return;
         }
 
@@ -99,7 +101,7 @@ function MazeController($timeout) {
             coords.direction = 3;
         }
 
-        promises.push($timeout(clearWall, interval, true, coords, 2));
+        promises.push($timeout(clearWall, maze.interval, true, coords, 2));
 
     }
 
@@ -121,7 +123,7 @@ function MazeController($timeout) {
             cell.below = visit;
         }
 
-        promises.push($timeout(clearCell, interval, true, coords, visit));
+        promises.push($timeout(clearCell, maze.interval, true, coords, visit));
     }
 
 

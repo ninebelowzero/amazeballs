@@ -92,6 +92,18 @@ main.container #visualization-section .button-container {
   text-align: center;
 }
 
+main.container #visualization-section .button-container * {
+  display: inline-block;
+}
+
+main.container #visualization-section .button-container input[type="number"] {
+  width: 70px;
+}
+
+main.container #visualization-section .button-container label {
+  padding-right: 10px;
+}
+
 main.container #visualization-section .button-container button {
   font-family: Audiowide, sans-serif;
 }
