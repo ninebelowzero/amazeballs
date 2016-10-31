@@ -54,6 +54,15 @@
         <div class="button-container">
 
             <label>
+                Color scheme
+                <select ng-model="maze.colorScheme" ng-change="maze.changeColors()">
+                    <option value="classic">Classic</option>
+                    <option value="rudeboy">Rudeboy</option>
+                    <option value="negative">Negative</option>
+                </select>
+            </label>
+
+            <label>
                 Starting point
                 <input type="number" name="starting_row" ng-model="maze.startingRow">
                 <input type="number" name="starting_col" ng-model="maze.startingCol">

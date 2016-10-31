@@ -96,8 +96,12 @@ main.container #visualization-section .button-container * {
   display: inline-block;
 }
 
+main.container #visualization-section .button-container select {
+  width: 100px;
+}
+
 main.container #visualization-section .button-container input[type="number"] {
-  width: 70px;
+  width: 60px;
 }
 
 main.container #visualization-section .button-container label {
