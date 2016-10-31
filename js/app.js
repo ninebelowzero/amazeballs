@@ -24,7 +24,15 @@ function MazeController($timeout) {
         promises.forEach($timeout.cancel);
 
         maze.grid = buildGrid(gridHeight, gridWidth);
-        startingPoint = [maze.startingCol, maze.startingRow];
+
+        // Prevents the user from entering whacky numbers
+        if (maze.startingCol < 0) maze.startingCol = 0;
+        if (maze.startingRow < 0) maze.startingRow = 0;
+
+        if (maze.startingCol > gridHeight - 1) maze.startingCol = gridHeight - 1;
+        if (maze.startingRow > gridWidth - 1) maze.startingRow = gridWidth - 1;
+
+        startingPoint =  [maze.startingCol, maze.startingRow];
         clearCell(startingPoint, 1);
     };
 
