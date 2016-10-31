@@ -1,8 +1,13 @@
-$visited-once-color: deepskyblue;
-$visited-twice-color: white;
+$visited-once-color-classic: deepskyblue;
+$visited-twice-color-classic: white;
+$visited-once-color-rudeboy: red;
+$visited-twice-color-rudeboy: yellow;
+$visited-once-color-negative: deepskyblue;
+$visited-twice-color-negative: #333;
 $wall-color: #333
 $cell-height: 10px
 $amazeballs-font: Audiowide, sans-serif
+
 
 main.container
     padding-top: 40px
@@ -35,16 +40,6 @@ main.container
                 padding: 0
                 position: relative
 
-                .square
-                    width: $cell-height
-                    height: $cell-height
-                    background-color: $wall-color
-
-                .square.visited-once
-                    background-color: $visited-once-color
-                .square.visited-twice
-                    background-color: $visited-twice-color
-
                 .square::before
                     content: ""
                     display: inline-block
@@ -55,14 +50,51 @@ main.container
                     right: $cell-height
                     bottom: $cell-height
 
-            td.visited-right-once
-                border-right-color: $visited-once-color
-            td.visited-below-once
-                border-bottom-color: $visited-once-color
-            td.visited-right-twice
-                border-right-color: $visited-twice-color
-            td.visited-below-twice
-                border-bottom-color: $visited-twice-color
+                .square
+                    width: $cell-height
+                    height: $cell-height
+                    background-color: $wall-color
+
+                .square.visited-once.classic
+                    background-color: $visited-once-color-classic
+                .square.visited-twice.classic
+                    background-color: $visited-twice-color-classic
+
+                .square.visited-once.rudeboy
+                    background-color: $visited-once-color-rudeboy
+                .square.visited-twice.rudeboy
+                    background-color: $visited-twice-color-rudeboy
+
+                .square.visited-once.negative
+                    background-color: $visited-once-color-negative
+                .square.visited-twice.negative
+                    background-color: $visited-twice-color-negative
+
+
+            td.visited-right-once.classic
+                border-right-color: $visited-once-color-classic
+            td.visited-below-once.classic
+                border-bottom-color: $visited-once-color-classic
+            td.visited-right-twice.classic
+                border-right-color: $visited-twice-color-classic
+            td.visited-below-twice.classic
+                border-bottom-color: $visited-twice-color-classic
+            td.visited-right-once.rudeboy
+                border-right-color: $visited-once-color-rudeboy
+            td.visited-below-once.rudeboy
+                border-bottom-color: $visited-once-color-rudeboy
+            td.visited-right-twice.rudeboy
+                border-right-color: $visited-twice-color-rudeboy
+            td.visited-below-twice.rudeboy
+                border-bottom-color: $visited-twice-color-rudeboy
+            td.visited-right-once.negative
+                border-right-color: $visited-once-color-negative
+            td.visited-below-once.negative
+                border-bottom-color: $visited-once-color-negative
+            td.visited-right-twice.negative
+                border-right-color: $visited-twice-color-negative
+            td.visited-below-twice.negative
+                border-bottom-color: $visited-twice-color-negative
 
         // Pseudo element to cover the edges of the maze where you can get weird border effects
         #maze::after
@@ -97,8 +129,6 @@ main.container
 
 
     #explanation-section
-        pre
-            // padding: 0 50px
 
         .sign-off
             text-align: center

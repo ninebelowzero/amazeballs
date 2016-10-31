@@ -34,20 +34,6 @@ main.container #visualization-section #maze td {
   position: relative;
 }
 
-main.container #visualization-section #maze td .square {
-  width: 10px;
-  height: 10px;
-  background-color: #333;
-}
-
-main.container #visualization-section #maze td .square.visited-once {
-  background-color: deepskyblue;
-}
-
-main.container #visualization-section #maze td .square.visited-twice {
-  background-color: white;
-}
-
 main.container #visualization-section #maze td .square::before {
   content: "";
   display: inline-block;
@@ -59,20 +45,82 @@ main.container #visualization-section #maze td .square::before {
   bottom: 10px;
 }
 
-main.container #visualization-section #maze td.visited-right-once {
+main.container #visualization-section #maze td .square {
+  width: 10px;
+  height: 10px;
+  background-color: #333;
+}
+
+main.container #visualization-section #maze td .square.visited-once.classic {
+  background-color: deepskyblue;
+}
+
+main.container #visualization-section #maze td .square.visited-twice.classic {
+  background-color: white;
+}
+
+main.container #visualization-section #maze td .square.visited-once.rudeboy {
+  background-color: red;
+}
+
+main.container #visualization-section #maze td .square.visited-twice.rudeboy {
+  background-color: yellow;
+}
+
+main.container #visualization-section #maze td .square.visited-once.negative {
+  background-color: deepskyblue;
+}
+
+main.container #visualization-section #maze td .square.visited-twice.negative {
+  background-color: #333;
+}
+
+main.container #visualization-section #maze td.visited-right-once.classic {
   border-right-color: deepskyblue;
 }
 
-main.container #visualization-section #maze td.visited-below-once {
+main.container #visualization-section #maze td.visited-below-once.classic {
   border-bottom-color: deepskyblue;
 }
 
-main.container #visualization-section #maze td.visited-right-twice {
+main.container #visualization-section #maze td.visited-right-twice.classic {
   border-right-color: white;
 }
 
-main.container #visualization-section #maze td.visited-below-twice {
+main.container #visualization-section #maze td.visited-below-twice.classic {
   border-bottom-color: white;
+}
+
+main.container #visualization-section #maze td.visited-right-once.rudeboy {
+  border-right-color: red;
+}
+
+main.container #visualization-section #maze td.visited-below-once.rudeboy {
+  border-bottom-color: red;
+}
+
+main.container #visualization-section #maze td.visited-right-twice.rudeboy {
+  border-right-color: yellow;
+}
+
+main.container #visualization-section #maze td.visited-below-twice.rudeboy {
+  border-bottom-color: yellow;
+}
+
+main.container #visualization-section #maze td.visited-right-once.negative {
+  border-right-color: deepskyblue;
+}
+
+main.container #visualization-section #maze td.visited-below-once.negative {
+  border-bottom-color: deepskyblue;
+}
+
+main.container #visualization-section #maze td.visited-right-twice.negative {
+  border-right-color: #333;
+}
+
+main.container #visualization-section #maze td.visited-below-twice.negative {
+  border-bottom-color: #333;
 }
 
 main.container #visualization-section #maze::after {

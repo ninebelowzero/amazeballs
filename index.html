@@ -40,11 +40,17 @@
                         'visited-right-once': cell.right === 1,
                         'visited-below-once': cell.below === 1,
                         'visited-right-twice': cell.right === 2,
-                        'visited-below-twice': cell.below === 2
+                        'visited-below-twice': cell.below === 2,
+                        classic: maze.colorScheme === 'classic',
+                        rudeboy: maze.colorScheme === 'rudeboy',
+                        negative: maze.colorScheme === 'negative'
                     }">
                     <div class="square" ng-class="{
                         'visited-once': cell.visited === 1,
-                        'visited-twice': cell.visited === 2
+                        'visited-twice': cell.visited === 2,
+                        classic: maze.colorScheme === 'classic',
+                        rudeboy: maze.colorScheme === 'rudeboy',
+                        negative: maze.colorScheme === 'negative'
                         }">
                     </div>
                 </td>
