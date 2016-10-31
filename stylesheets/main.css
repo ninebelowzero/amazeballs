@@ -135,6 +135,29 @@ main.container #visualization-section #maze::after {
   border-bottom: 10px solid #333;
 }
 
+main.container #visualization-section #maze.negative {
+  border-top: 10px solid white;
+  border-left: 10px solid white;
+}
+
+main.container #visualization-section #maze.negative td {
+  border-right: 10px solid white;
+  border-bottom: 10px solid white;
+}
+
+main.container #visualization-section #maze.negative td .square::before {
+  background-color: white;
+}
+
+main.container #visualization-section #maze.negative td .square {
+  background-color: white;
+}
+
+main.container #visualization-section #maze.negative::after {
+  border-right: 10px solid white;
+  border-bottom: 10px solid white;
+}
+
 main.container #visualization-section .button-container {
   padding: 20px;
   text-align: center;

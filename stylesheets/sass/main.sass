@@ -1,13 +1,13 @@
-$visited-once-color-classic: deepskyblue;
-$visited-twice-color-classic: white;
-$visited-once-color-rudeboy: red;
-$visited-twice-color-rudeboy: yellow;
-$visited-once-color-negative: deepskyblue;
-$visited-twice-color-negative: #333;
+$visited-once-color-classic: deepskyblue
+$visited-twice-color-classic: white
+$visited-once-color-rudeboy: red
+$visited-twice-color-rudeboy: yellow
+$visited-once-color-negative: deepskyblue
+$visited-twice-color-negative: #333
 $wall-color: #333
+$wall-color-negative: white
 $cell-height: 10px
 $amazeballs-font: Audiowide, sans-serif
-
 
 main.container
     padding-top: 40px
@@ -107,6 +107,25 @@ main.container
             bottom: 0
             border-right: $cell-height solid $wall-color
             border-bottom: $cell-height solid $wall-color
+
+        #maze.negative
+            border-top: $cell-height solid $wall-color-negative
+            border-left: $cell-height solid $wall-color-negative
+
+            td
+                border-right: $cell-height solid $wall-color-negative
+                border-bottom: $cell-height solid $wall-color-negative
+
+                .square::before
+                    background-color: $wall-color-negative
+                .square
+                    background-color: $wall-color-negative
+
+        #maze.negative::after
+            border-right: $cell-height solid $wall-color-negative
+            border-bottom: $cell-height solid $wall-color-negative
+
+
 
         .button-container
             padding: 20px

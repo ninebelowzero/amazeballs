@@ -32,7 +32,7 @@
 
     <section id="visualization-section" ng-controller="MazeController as maze">
 
-        <table id="maze">
+        <table id="maze" ng-class="{ negative: maze.colorScheme === 'negative' }">
             <tr ng-repeat="row in maze.grid track by $index">
                 <td
                     ng-repeat="cell in row track by $index"
