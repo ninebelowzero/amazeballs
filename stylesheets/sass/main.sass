@@ -6,8 +6,9 @@ $border-width: 10px
 $amazeballs-font: Audiowide, sans-serif
 
 main.container
-    padding-top: 50px
+    padding-top: 40px
     color: #333
+    font-size: 1.7rem
 
     h1
         text-align: center
@@ -15,7 +16,7 @@ main.container
         text-transform: uppercase
 
     #visualization-section
-        margin: 50px 0
+        margin: 30px 0 0
 
         #maze
             margin: 0 auto
@@ -77,8 +78,19 @@ main.container
             border-bottom: $border-width solid $wall-color
 
         .button-container
-            padding: 40px
+            padding: 20px
             text-align: center
 
             button
                 font-family: $amazeballs-font
+
+
+    #explanation-section
+        pre
+            // padding: 0 50px
+
+        .sign-off
+            text-align: center
+            font-size: 12px
+            .heart
+                color: red

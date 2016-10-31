@@ -10,7 +10,7 @@ function MazeController($timeout) {
     var gridHeight      = 20,
         gridWidth       = 40,
         startingPoint   = [0, 0],
-        interval        = 10;
+        interval        = 20;
 
     var promises = [];
 

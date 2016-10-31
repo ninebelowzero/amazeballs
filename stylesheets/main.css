@@ -1,6 +1,7 @@
 main.container {
-  padding-top: 50px;
+  padding-top: 40px;
   color: #333;
+  font-size: 1.7rem;
 }
 
 main.container h1 {
@@ -10,7 +11,7 @@ main.container h1 {
 }
 
 main.container #visualization-section {
-  margin: 50px 0;
+  margin: 30px 0 0;
 }
 
 main.container #visualization-section #maze {
@@ -87,10 +88,19 @@ main.container #visualization-section #maze::after {
 }
 
 main.container #visualization-section .button-container {
-  padding: 40px;
+  padding: 20px;
   text-align: center;
 }
 
 main.container #visualization-section .button-container button {
   font-family: Audiowide, sans-serif;
+}
+
+main.container #explanation-section .sign-off {
+  text-align: center;
+  font-size: 12px;
+}
+
+main.container #explanation-section .sign-off .heart {
+  color: red;
 }
